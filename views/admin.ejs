@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #ffa163;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #ff3f3f;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            color: #666;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/index?lang=<%= currentLanguage %>"><%= lang.brand %></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/admin?lang=<%= currentLanguage %>"><%= lang.users %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/products?lang=<%= currentLanguage %>"><%= lang.products %></a>
+                    </li>
+                    <form id="language-form" action="/change-language" method="POST" class="form-inline">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <%= currentLanguage.toUpperCase() %>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                                <button class="dropdown-item" type="submit" name="language" value="en">English</button>
+                                <button class="dropdown-item" type="submit" name="language" value="ru">Russian</button>
+                            </div>
+                        </div>
+                    </form>
+                    <li class="nav-item">
+                        <a  class="nav-link" href="/logout"><%= lang.logout %></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <div class="container mt-4">
+        <h2><%= lang.admin %></h2>
+        <h3><%= lang.AddUser %></h3>
+        <form action="/admin/add?lang=<%= currentLanguage %>" method="POST">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="username"><%= lang.username %></label>
+                    <input type="text" class="form-control" id="username" name="username">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="email"><%= lang.email %></label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="password"><%= lang.password %></label>
+                    <input type="password" class="form-control" id="password" name="password">
+                </div>
+                <div class="form-group col-md-3">
+                    <button type="submit" class="btn btn-primary btn-block mt-3"  style="background-color: gray; color: white;"><%= lang.AddUser %></button>
+                </div>
+            </div>
+        </form>
+        
+        
+        <h3><%= lang.UpdateUser %></h3>
+        <form action="/admin/update" method="POST">
+            <div class="form-group">
+                <label for="userId"><%= lang.SelectUser %></label>
+                <select class="form-control" id="userId" name="userId">
+                    <% users.forEach(user => { %>
+                    <option value="<%= user._id %>"><%= user.username %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="newUsername"><%= lang.username %></label>
+                    <input type="text" class="form-control" id="newUsername" name="newUsername">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="newEmail"><%= lang.email %></label>
+                    <input type="email" class="form-control" id="newEmail" name="newEmail">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="newPassword"><%= lang.password %></label>
+                <input type="password" class="form-control" id="newPassword" name="newPassword">
+            </div>
+            <button type="submit" class="btn btn-primary"  style="background-color: gray; color: white;"><%= lang.UpdateUser %></button>
+        </form>
+
+        <br>
+        <h3><%= lang.DeleteUser %></h3>
+        <form action="/admin/delete?lang=<%= currentLanguage %>" method="POST">
+            <div class="form-group">
+                <label for="deleteUserId"><%= lang.SelectUser %></label>
+                <select class="form-control" id="deleteUserId" name="deleteUserId">
+                    <% users.forEach(user => { %>
+                    <option value="<%= user._id %>"><%= user.username %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger btn-block"  style="background-color: gray; color: white;"><%= lang.DeleteUser %></button>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; Zhanarys Asan - se-2206</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

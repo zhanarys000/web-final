@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #ffa163;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #ff3f3f;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            color: #666;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+        .card-body{
+            background-color: #ffa163;
+        }
+        .product-card {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        .product-card .card-img-top {
+            height: 200px; 
+            object-fit: cover; 
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/index?lang=<%= currentLanguage %>"><%= lang.brand %></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/index?lang=<%= currentLanguage %>"><%= lang.home %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/cart?lang=<%= currentLanguage %>"><%= lang.basket %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/other?lang=<%= currentLanguage %>"><%= lang.api1 %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/currency?lang=<%= currentLanguage %>"><%= lang.api2 %></a>
+                    </li>
+                    <% if (isAdmin) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/admin?lang=<%= currentLanguage %>"><%= translation.navAdminPage %></a>
+                        </li>
+                    <% } %>
+                    <form id="language-form" action="/change-language" method="POST" class="form-inline">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <%= currentLanguage.toUpperCase() %>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                                <button class="dropdown-item" type="submit" name="language" value="en">English</button>
+                                <button class="dropdown-item" type="submit" name="language" value="ru">Russian</button>
+                            </div>
+                        </div>
+                    </form>
+                    <li class="nav-item">
+                        <a  class="nav-link" href="/logout"><%= lang.logout %></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+        <div class=" text-center">
+            <h1 class="display-4"><%= lang.welcomeOther %></h1>
+            <p class="lead"><%= lang.welcomeDOther %></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 mb-3 text-center">
+                <form action="/other" method="get">
+                    <div class="form-group text-center">
+                        <label for="categorySelect"><%= lang.SelectCategory %>:</label>
+                        <select id="categorySelect" name="category" class="form-control">
+                            <option value="jewelery">Jewelery</option>
+                            <option value="electronics">Electronics</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary text-center "  style="background-color: gray; color: white;"><%= lang.search %></button>
+                </form>
+            </div>
+            <% products.forEach(product => { %>
+                <div class="col-md-4">
+                    <div class="product-card">
+                        <div class="card">
+                            <img class="card-img-top" src="<%= product.image %>" alt="<%= product.title %>">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= product.title %></h5>
+                                <p class="card-text"><strong>Price:</strong> $<%= product.price %></p>
+                                <p class="card-text"><strong>Description:</strong> <%= product.description %></p>
+                                <p class="card-text"><strong>Rating:</strong> <%= product.rating.rate %> (based on <%= product.rating.count %> reviews)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+    
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; Zhanarys Asan - se-2206</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

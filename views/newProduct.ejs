@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #ffa163;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-item .nav-link {
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+        }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #ff3f3f;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            color: #666;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="/index?lang=<%= currentLanguage %>"><%= lang.brand %></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/admin?lang=<%= currentLanguage %>"><%= lang.users %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/products?lang=<%= currentLanguage %>"><%= lang.products %></a>
+                    </li>
+                    <form id="language-form" action="/change-language" method="POST" class="form-inline">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="languageDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <%= currentLanguage.toUpperCase() %>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                                <button class="dropdown-item" type="submit" name="language" value="en">English</button>
+                                <button class="dropdown-item" type="submit" name="language" value="ru">Russian</button>
+                            </div>
+                        </div>
+                    </form>
+                    <li class="nav-item">
+                        <a  class="nav-link" href="/logout"><%= lang.logout %></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <h2><%= lang.ProductsAdministration %></h2>
+        
+        <h3><%= lang.AddProduct %></h3>
+        <form action="/admin/products?lang=<%= currentLanguage %>" method="POST" enctype="multipart/form-data">
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input class="form-control" type="text" id="addNameEnglish" name="names[0][language]" value="english" style="display: none;">
+                    <input class="form-control" type="text" id="addNameEnglish" name="names[0][name]" placeholder="<%= lang.nameE %>" required>
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" id="addNameRussian" name="names[1][language]" value="russian" style="display: none;">
+                    <input class="form-control" type="text" id="addNameRussian" name="names[1][name]" placeholder="<%= lang.nameR %>" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <textarea id="addDescriptionEnglish" name="descriptions[0][language]" style="display: none;">d1</textarea>
+                    <textarea class="form-control" id="addDescriptionEnglish" name="descriptions[0][description]" placeholder="<%= lang.descriptionE %>" required></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <textarea id="addDescriptionKazakh" name="descriptions[1][language]" style="display: none;">d2</textarea>
+                    <textarea class="form-control" id="addDescriptionKazakh" name="descriptions[1][description]" placeholder="<%= lang.descriptionR %>" required></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <input type="number" class="form-control" name="productPrice" placeholder="<%= lang.price %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="category" placeholder="<%= lang.Category %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="colors" placeholder="<%= lang.Colors %>" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="sizes" placeholder="<%= lang.Sizes %>" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="addImage1"><%= lang.image1 %>:</label>
+                    <input type="file" id="addImage1" name="images[]" accept="image/*" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="addImage2"><%= lang.image2 %>:</label>
+                    <input type="file" id="addImage2" name="images[]" accept="image/*" required>        </div>
+                <div class="form-group col-md-4">
+                    <label for="addImage3"><%= lang.image3 %>:</label>
+                    <input type="file" id="addImage3" name="images[]" accept="image/*" required>        </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"  style="background-color: gray; color: white;">Add Product</button>
+        </form>
+
+        <br><br>
+        <h3><%= lang.UpdateProduct %></h3>
+        <form action="/admin/products/update?lang=<%= currentLanguage %>" method="POST">
+            <div class="form-group">
+                <select class="form-control" name="productId" required>
+                    <option value="" disabled selected><%=  lang.SelectProduct %></option>
+                    <% products.forEach(product => { %>
+                        <option value="<%= product._id %>">
+                            <%= (currentLanguage === 'en') ? product.names[0].name : product.names[1].name %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <input class="form-control" type="text" id="addNameEnglish" name="names[0][language]" value="english" style="display: none;">
+                    <input class="form-control" type="text" id="addNameEnglish" name="names[0][name]" placeholder="<%= lang.nameE %>" >
+                </div>
+                <div class="form-group col-md-6">
+                    <input type="text" id="addNameRussian" name="names[1][language]" value="russian" style="display: none;">
+                    <input class="form-control" type="text" id="addNameRussian" name="names[1][name]" placeholder="<%= lang.nameR %>" >
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <textarea id="addDescriptionEnglish" name="descriptions[0][language]" style="display: none;">d1</textarea>
+                    <textarea class="form-control" id="addDescriptionEnglish" name="descriptions[0][description]" placeholder="<%= lang.descriptionE %>" ></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <textarea id="addDescriptionKazakh" name="descriptions[1][language]" style="display: none;">d2</textarea>
+                    <textarea class="form-control" id="addDescriptionKazakh" name="descriptions[1][description]" placeholder="<%= lang.descriptionR %>" ></textarea>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <input type="number" class="form-control" name="productPrice" placeholder="<%= lang.price %>" >
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="category" placeholder="<%= lang.Category %>" >
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="colors" placeholder="<%= lang.Colors %>" >
+                </div>
+                <div class="form-group col-md-4">
+                    <input type="text" class="form-control" name="sizes" placeholder="<%= lang.Sizes %>" >
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block"  style="background-color: gray; color: white;"><%= lang.UpdateProduct %></button>
+        </form>
+
+        <br><br>
+        <h3><%=  lang.DeleteProduct %></h3>
+        <form action="/admin/products/delete?lang=<%= currentLanguage %>" method="POST">
+            <div class="form-group">
+                <select class="form-control" name="productId" required>
+                    <option value="" disabled selected><%= lang.SelectProduct %></option>
+                    <% products.forEach(product => { %>
+                        <option value="<%= product._id %>">
+                            <%= (currentLanguage === 'en') ? product.names[0].name : product.names[1].name %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-danger btn-block"  style="background-color: gray; color: white;"><%= lang.DeleteProduct %></button>
+        </form>
+    </div>
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>&copy; Zhanarys Asan - se-2206</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
