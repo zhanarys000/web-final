@@ -7,7 +7,7 @@ This is a web application representing an online store, developed using Node.js,
 1. Clone the repository to your local machine:
 
 \`\`\`
-git clone https://github.com/your-username/your-repository.git
+git clone https://github.com/zhanarys000/web-final
 \`\`\`
 
 2. Install dependencies:
