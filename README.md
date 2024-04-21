@@ -12,15 +12,15 @@ git clone https://github.com/zhanarys000/web-final
 
 2. Install dependencies:
 
-\`\`\`
+```
 npm install
-\`\`\`
+```
 
 3. Start the application:
 
-\`\`\`
+```
 nodemon index.js
-\`\`\`
+```
 
 The application will be available at http://localhost:3000/.
 
